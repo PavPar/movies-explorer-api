@@ -11,8 +11,7 @@ router.put('/users/me', celebrate({
   body: Joi.object().keys({
     email: Joi.string().required().email(),
     name: Joi.string().required().min(2).max(30),
-    about: Joi.string().required().min(2).max(30),
   }),
-}), usersController.createUser);
+}), usersController.updateUser);
 
 module.exports = router;
