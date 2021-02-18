@@ -52,13 +52,13 @@ module.exports.authUser = (req, res, next) => {
       if (!matched) {
         throw new ErrorHandler.UnauthorizedError('Неправильные почта или пароль');
       }
-
       const token = jwt.sign(
         { _id: userID._id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_LIFESPAN },
       );
       res.send({
         token,
       });
+
       return true;
     })
     .catch((err) => handleError(err))

@@ -77,7 +77,7 @@ const movieSchema = new mongoose.Schema({
     required: true,
   },
   movieID: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: String,
     required: true,
     unique: true,
   },
@@ -88,28 +88,6 @@ const movieSchema = new mongoose.Schema({
   nameEN: {
     type: String,
     required: true,
-  },
-
-  name: {
-    type: String,
-    minlength: 2,
-    maxlength: 30,
-    required: true,
-  },
-  email: {
-    type: String,
-    validate: {
-      validator(email) {
-        return validator.isEmail(email);
-      },
-    },
-    required: true,
-    unique: true,
-  },
-  password: {
-    type: String,
-    required: true,
-    select: false,
   },
 });
 

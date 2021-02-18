@@ -9,11 +9,11 @@ const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
 const routes = require('./routes/index');
 const authRoute = require('./routes/auth');
-// const auth = require('./middlewares/auth');
-// const ErrorHandler = require('./utils/errorHandler/ErrorHandler');
-// const { requestLogger, errorLogger } = require('./middlewares/logger');
+const auth = require('./middlewares/auth');
+const ErrorHandler = require('./utils/errorHandler/ErrorHandler');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
 
-// require('dotenv').config({ path: path.join(__dirname, 'envVars.env') });
+require('dotenv').config({ path: path.join(__dirname, 'envVars.env') });
 
 const app = express();
 
@@ -44,11 +44,11 @@ const { PORT = '3000' } = process.env;
 
 app.use(cors());
 
-// app.use(requestLogger);
+app.use(requestLogger);
 
-// app.use(authRoutes);
-// app.use(auth);
-// app.use(routes);
+app.use(authRoute);
+app.use(auth);
+app.use(routes);
 
 app.get('/crash-test', () => {
   setTimeout(() => {
@@ -56,11 +56,11 @@ app.get('/crash-test', () => {
   }, 0);
 });
 
-// app.use('*', () => {
-//   throw new ErrorHandler.NotFoundError('Запрашиваемый ресурс не найден');
-// });
+app.use('*', () => {
+  throw new ErrorHandler.NotFoundError('Запрашиваемый ресурс не найден');
+});
 
-// app.use(errorLogger);
+app.use(errorLogger);
 app.use(errors());
 
 // eslint-disable-next-line no-unused-vars
