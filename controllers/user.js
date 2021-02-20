@@ -3,14 +3,15 @@ const bcrypt = require('bcryptjs');
 
 const User = require('../models/user');
 const ErrorHandler = require('../utils/errorHandler/ErrorHandler');
+const userMSG = require('../utils/constants/constant__msg-user');
 
 const handleError = (err) => {
   if (err.name === 'ValidationError') {
-    throw (new ErrorHandler.BadRequestError('Данные пользователя неверные'));
+    throw (new ErrorHandler.BadRequestError(userMSG.badData));
   }
 
   if (err.name === 'CastError') {
-    throw new ErrorHandler.NotFoundError('Такого пользователя нет');
+    throw new ErrorHandler.NotFoundError(userMSG.notFound);
   }
 
   throw (err);
@@ -18,7 +19,7 @@ const handleError = (err) => {
 
 module.exports.getUser = (req, res, next) => {
   User.findById(req.user._id)
-    .orFail(() => { throw new ErrorHandler.NotFoundError('Такого пользователя нет'); })
+    .orFail(() => { throw new ErrorHandler.NotFoundError(userMSG.notFound); })
     .then((userData) => res.send(userData))
     .catch((err) => handleError(err))
     .catch((err) => next(err));
@@ -31,7 +32,7 @@ module.exports.updateUser = (req, res, next) => {
       new: true,
       runValidators: true,
     })
-    .orFail(() => { throw new ErrorHandler.NotFoundError('Такого пользователя нет'); })
+    .orFail(() => { throw new ErrorHandler.NotFoundError(userMSG.notFound); })
     .then((users) => res.send(users))
     .catch((err) => handleError(err))
     .catch((err) => next(err));
@@ -43,14 +44,14 @@ module.exports.authUser = (req, res, next) => {
   User.findOne({ email }).select('+password')
     .then((user) => {
       if (!user) {
-        throw new ErrorHandler.UnauthorizedError('Неправильные почта или пароль');
+        throw new ErrorHandler.UnauthorizedError(userMSG.badData);
       }
       userID = user._id;
       return bcrypt.compare(password, user.password);
     })
     .then((matched) => {
       if (!matched) {
-        throw new ErrorHandler.UnauthorizedError('Неправильные почта или пароль');
+        throw new ErrorHandler.UnauthorizedError(userMSG.badData);
       }
       const token = jwt.sign(
         { _id: userID._id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_LIFESPAN },
@@ -73,7 +74,7 @@ module.exports.createUser = (req, res, next) => {
   User.exists({ email })
     .then((exists) => {
       if (exists) {
-        throw (new ErrorHandler.ConflictError('Email занят'));
+        throw (new ErrorHandler.ConflictError(userMSG.badEmail));
       }
     })
     .then(() => {
