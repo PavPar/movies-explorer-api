@@ -1,0 +1,14 @@
+{
+  "country": "England",
+  "director": "Mike Nichols",
+  "duration": 13,
+  "year": "1967",
+  "description": "test",
+  "image": "http://ia.media-imdb.com/images/M/MV5BMTQ0ODc4MDk4Nl5BMl5BanBnXkFtZTcwMTEzNzgzNA@@._V1_SX300.jpg",
+  "trailer": "http://ia.media-imdb.com/images/M/MV5BMTQ0ODc4MDk4Nl5BMl5BanBnXkFtZTcwMTEzNzgzNA@@._V1_SX300.jpg",
+  "thumbnail": "http://ia.media-imdb.com/images/M/MV5BMTQ0ODc4MDk4Nl5BMl5BanBnXkFtZTcwMTEzNzgzNA@@._V1_SX300.jpg",
+  "owner": "Ezstudio",
+  "movieID":"12",
+  "nameRU":"тест",
+  "nameEN":"test"
+}
