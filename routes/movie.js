@@ -19,7 +19,7 @@ router.post('/movies', celebrate({
     nameRU: Joi.string().required(),
     nameEN: Joi.string().required(),
     thumbnail: Joi.string().uri().required(),
-    movieID: Joi.string().required().length(24),
+    movieID: Joi.string().required(),
   }),
 }), movieController.createMovie);
 
