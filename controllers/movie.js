@@ -20,7 +20,7 @@ const handleError = (err) => {
   throw (err);
 };
 
-module.exports.getMovies = (req, res, next) => Movie.find({})
+module.exports.getMovies = (req, res, next) => Movie.find({ owner: req.user._id })
   .then((movies) => {
     res.send(Object.values(movies));
   })
