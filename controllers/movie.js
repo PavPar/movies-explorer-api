@@ -27,7 +27,7 @@ module.exports.getMovies = (req, res, next) => Movie.find({ owner: req.user._id 
   .catch((err) => next(err));
 
 module.exports.deleteMovie = (req, res, next) => {
-  Movie.find({ movieID: req.params.movieID })
+  Movie.find({ movieID: req.params.movieID, owner: req.user._id })
     .then((movies) => {
       const movie = movies[0];
       if (!movie) {
@@ -38,7 +38,7 @@ module.exports.deleteMovie = (req, res, next) => {
         console.log(movie);
         throw (new ErrorHandler.ForbiddenError(movieMSG.notOwner));
       }
-      Movie.deleteOne({ movieID: req.params.movieID })
+      Movie.deleteOne({ movieID: req.params.movieID, owner: req.user._id })
         .then((movies) => {
           if (movies.deletedCount === 0) {
             throw (new ErrorHandler.NotFoundError(movieMSG.notFound));
