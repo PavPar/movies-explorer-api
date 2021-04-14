@@ -68,7 +68,7 @@ module.exports.createMovie = (req, res, next) => {
     thumbnail,
     movieID,
   } = req.body;
-  Movie.find({ movieID })
+  Movie.find({ movieID, owner: req.user._id })
     .then((movies) => {
       if (movies.length > 0) {
         console.log(movies);
